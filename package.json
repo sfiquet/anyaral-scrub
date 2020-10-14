@@ -2,11 +2,14 @@
   "name": "data-scrub",
   "version": "1.0.0",
   "description": "data scrubber for Anyaral site",
-  "main": "index.js",
+  "main": "scrub.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "Sylvie Fiquet",
-  "license": "ISC"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^26.5.3"
+  }
 }
