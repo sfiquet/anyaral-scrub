@@ -1,15 +1,15 @@
-// CamelCase to kebab-case
-const camelToKebab = camelName => {
+// CamelCase to snake_case
+const camelToSnake = camelName => {
   let tokens = camelName.split(/([A-Z])/);
-  let kebabName = tokens.reduce((acc, item) => {
+  let snakeName = tokens.reduce((acc, item) => {
     let lower = item.toLowerCase();
     if (lower !== item && acc.length > 0){
-      acc += '-';
+      acc += '_';
     }
     acc += lower;
     return acc;
   }, '');
-  return kebabName;
+  return snakeName;
 };
 
-module.exports = camelToKebab;
+module.exports = camelToSnake;

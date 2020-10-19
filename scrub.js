@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const scrubData = require('./scrubdata');
-const camelToKebab = require('./filename');
+const camelToSnake = require('./filename');
 
 const SUCCESS = 0;
 const ERR_SYNTAX = 1;
@@ -28,14 +28,14 @@ const readSourceFile = sourceFile => {
   return dataObj;
 };
 
-// CamelCase to kebab-case
+// CamelCase to snake_case
 const generateOutputFilename = sourceFile => {
   let ext = path.extname(sourceFile);
   let name = path.basename(sourceFile, ext);
 
-  let kebabName = camelToKebab(name);
+  let snakeName = camelToSnake(name);
 
-  return `${kebabName}.json`;
+  return `${snakeName}.json`;
 };
 
 const saveJson = (jsonObj, destFile) => {
