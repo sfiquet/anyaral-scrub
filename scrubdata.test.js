@@ -46,7 +46,7 @@ describe('scrubdata', () => {
 
   describe('Data', () => {
     describe('Base case: return all objects', () => {
-      it('returns all the objects if none have a special property (category or hidden)', () => {
+      it('returns all the objects if none have a special property', () => {
         let data = [
           { name: "chocolate" }, 
           { name: "cookie" }, 
@@ -171,6 +171,63 @@ describe('scrubdata', () => {
 
     }); // Remove objects with hidden: true
 
+    describe('Remove objects with isScenarioSpecific: true', () => {
+      // isScenarioSpecific is only present in creatures list
+
+      it('returns an empty array if all objects have isScenarioSpecific: true', () => {
+        let data = [
+          { name: "banana", isScenarioSpecific: true }, 
+          { name: "orange", isScenarioSpecific: true }, 
+          { name: "kiwi", isScenarioSpecific: true }, 
+        ];
+        let sourceObj = {
+          version: 15,
+          data: data,
+        };
+        let result = scrubdata(sourceObj);
+        expect(result.data).toEqual([]);
+      });
+
+      it('returns all the objects if none have isScenarioSpecific: true', () => {
+        let data = [
+          { name: "apple", isScenarioSpecific: false }, 
+          { name: "grapefruit" }, 
+          { name: "tomato", isScenarioSpecific: "undecided" },
+          { name: "carrot", isScenarioSpecific: "true" },
+        ];
+        let sourceObj = {
+          version: 10, 
+          data: data,
+        };
+        let result = scrubdata(sourceObj);
+
+        expect(result.data).toEqual(data);
+      });
+
+      it('removes all objects with isScenarioSpecific: true', () => {
+        let data = [
+          { name: "apple", isScenarioSpecific: true }, 
+          { name: "orange", isScenarioSpecific: false }, 
+          { name: "tomato", isScenarioSpecific: true },
+          { name: "chocolate" }, 
+          { name: "potato", isScenarioSpecific: "rubbish" },
+        ];
+        let sourceObj = {
+          version: 10, 
+          data: data,
+        };
+        let result = scrubdata(sourceObj);
+
+        expect(result.data).toHaveLength(3);
+        expect(result.data).toMatchObject([
+          { name: "orange" }, 
+          { name: "chocolate" },
+          { name: "potato" }
+        ]);
+        
+      });
+    }); // Remove objects with isScenarioSpecific: true
+
     describe('Delete hidden property from all returned objects', () => {
       it('deletes property "hidden" from all remaining objects', () => {
         let data = [
@@ -194,6 +251,30 @@ describe('scrubdata', () => {
 
       });
     }); // Delete hidden property from all returned objects
+
+    describe('Delete isScenarioSpecific property from all returned objects', () => {
+      it('deletes property "isScenarioSpecific" from all remaining objects', () => {
+        let data = [
+          { name: "apple", isScenarioSpecific: true, code: "a" }, 
+          { name: "orange", isScenarioSpecific: false, code: "b" }, 
+          { name: "tomato", isScenarioSpecific: true, code: "c" },
+          { name: "chocolate", code: "d" }, 
+          { name: "potato", isScenarioSpecific: "rubbish", code: "e" },
+        ];
+        let sourceObj = {
+          version: 10, 
+          data: data,
+        };
+        let result = scrubdata(sourceObj);
+
+        expect(result.data).toEqual([
+          { name: "orange", code: "b" }, 
+          { name: "chocolate", code: "d" },
+          { name: "potato", code: "e" }
+        ]);
+
+      });
+    }); // Delete isScenarioSpecific property from all returned objects
 
   }); // Data
 

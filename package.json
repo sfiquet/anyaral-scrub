@@ -1,6 +1,6 @@
 {
   "name": "data-scrub",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "data scrubber for Anyaral site",
   "main": "scrub.js",
   "scripts": {

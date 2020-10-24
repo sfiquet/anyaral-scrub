@@ -10,8 +10,12 @@ const scrubdata = sourceObj => {
     script: version,
   };
   let data = [];
-  data = sourceObj.data.filter(item => item.category !== "test" && item.hidden !== true);
-  data.forEach(item => delete item.hidden);
+  data = sourceObj.data.filter(item => item.category !== "test" && item.hidden !== true && item.isScenarioSpecific !== true);
+  data.forEach(item => {
+    delete item.hidden;
+    delete item.isScenarioSpecific;
+  });
+
   resultObj.data = data;
   return resultObj;
 };
